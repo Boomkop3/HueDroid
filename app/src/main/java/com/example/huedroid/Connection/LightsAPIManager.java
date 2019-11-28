@@ -2,9 +2,11 @@ package com.example.huedroid.Connection;
 
 import android.content.Context;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
@@ -31,8 +33,28 @@ public class LightsAPIManager {
         String url = "http://" + ip + ":" + port + "/api";
         HashMap map = new HashMap();
         map.put("devicetype", devicetype);
-        JSONObject body = new JSONObject(map);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, body, null, null);
+        final String body = new JSONObject(map).toString();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray data = response;
+                int x = 666;
+            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    int x = 420;
+                }
+            }
+        ){
+            @Override
+            public byte[] getBody() {
+                return body.getBytes();
+            }
+        };
+
+        this.queue.add(request);
+        this.queue.start();
     }
     public interface OnEmulatorUsername {
         public void respond(String username);
