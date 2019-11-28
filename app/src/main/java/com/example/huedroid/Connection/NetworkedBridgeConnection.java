@@ -43,6 +43,7 @@ public class NetworkedBridgeConnection implements BridgeConnection {
                     @Override
                     public void respond(String _username) {
                         userName = _username;
+                        int x = 666;
                     }
                 });
     }

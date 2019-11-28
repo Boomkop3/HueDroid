@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class LightsAPIManager {
         if (instance == null) instance = new LightsAPIManager(context);
         return instance;
     }
-    public void getUsername(String ip, int port, String devicetype, OnEmulatorUsername callback){
+    public void getUsername(String ip, int port, String devicetype, final OnEmulatorUsername callback){
         String url = "http://" + ip + ":" + port + "/api";
         HashMap map = new HashMap();
         map.put("devicetype", devicetype);
@@ -38,12 +39,18 @@ public class LightsAPIManager {
             @Override
             public void onResponse(JSONArray response) {
                 JSONArray data = response;
+                try {
+                    String username = data.getJSONObject(0).getJSONObject("success").getString("username");
+                    callback.respond(username);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 int x = 666;
             }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    int x = 420;
+                    // ToDo do something with this error
                 }
             }
         ){
