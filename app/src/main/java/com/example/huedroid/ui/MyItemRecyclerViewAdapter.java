@@ -14,7 +14,7 @@ import com.example.huedroid.ui.ui.main.LightsFragment.OnLightsFragmentInteractio
 
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.LampViewHolder> {
 
     private final List<Lamp> mValues;
     private final LightsFragment.OnLightsFragmentInteractionListener mListener;
@@ -25,23 +25,23 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LampViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+        return new LampViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
-        holder.mContentView.setText(mValues.get(position).getColor());
+    public void onBindViewHolder(final LampViewHolder holder, int position) {
+        holder.lamp = mValues.get(position);
+        holder.tbxName.setText(String.valueOf(holder.lamp.getId()));
+        holder.tbxState.setText(holder.lamp.isStateOn()?"On":"Off");
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.lamp);
                 }
             }
         });
@@ -52,22 +52,17 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Lamp mItem;
+    public class LampViewHolder extends RecyclerView.ViewHolder {
+        public final View view;
+        public final TextView tbxName;
+        public final TextView tbxState;
+        public Lamp lamp;
 
-        public ViewHolder(View view) {
+        public LampViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.tbxLightName);
-            mContentView = (TextView) view.findViewById(R.id.tbxLightState);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            this.view = view;
+            tbxName = view.findViewById(R.id.tbxLightName);
+            tbxState = view.findViewById(R.id.tbxLightState);
         }
     }
 }

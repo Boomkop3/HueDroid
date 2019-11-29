@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
+import com.example.huedroid.ui.MainScreen;
 import com.example.huedroid.ui.MyItemRecyclerViewAdapter;
 import com.example.huedroid.ui.controls.LightControl;
 public class LightsFragment extends Fragment {
@@ -32,15 +33,13 @@ public class LightsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
+            MainScreen context = (MainScreen) view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(LightControl.ITEMS, mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(context.getLamps(), mListener));
         }
         return view;
     }

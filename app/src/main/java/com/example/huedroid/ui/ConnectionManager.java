@@ -24,11 +24,12 @@ public class ConnectionManager extends AppCompatActivity {
         final TextView tbxPort = findViewById(R.id.tbxPort);
         final Switch toggleEmulated = findViewById(R.id.toggleEmulator);
         final Button btnSave = findViewById(R.id.btnSaveConnection);
-
-        SQLiteStorage.dbConnectionResponse connectionResponse = StorageManager.getDetaultStorage(getApplicationContext()).getCurrentConnection();
-        tbxIp.setText(connectionResponse.ip);
-        tbxPort.setText(connectionResponse.port + "");
-        toggleEmulated.setChecked(connectionResponse.emulated);
+        try {
+            SQLiteStorage.dbConnectionResponse connectionResponse = StorageManager.getDetaultStorage(getApplicationContext()).getCurrentConnection();
+            tbxIp.setText(connectionResponse.ip);
+            tbxPort.setText(connectionResponse.port + "");
+            toggleEmulated.setChecked(connectionResponse.emulated);
+        } catch (Exception ex) { /* whatever */ }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

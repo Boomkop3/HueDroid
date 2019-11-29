@@ -21,6 +21,11 @@ import java.util.ArrayList;
 
 public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener, LightsAPIManager.APIListener {
     private ArrayList<Lamp> lampen = new ArrayList<>();
+
+    public ArrayList<Lamp> getLamps(){
+        return lampen;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,8 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
                 startActivity(connectionManagerIntent);
             }
         });
+
+        testlampen();
     }
 
     @Override
