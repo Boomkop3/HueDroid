@@ -31,8 +31,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btn3_click() throws Exception{
-        BridgeConnection connection = BridgeFactory.getEmulatorConnection("10.0.2.2", 80, this);
-        String username = ((NetworkedBridgeConnection)connection).getUserName();
-        ((TextView)this.findViewById(R.id.letext)).setText(username);
+        BridgeFactory.getEmulatorConnection(
+                "10.0.2.2",
+                80,
+                this,
+                new BridgeFactory.OnBridgeConnection() {
+                    @Override
+                    public void Response(BridgeConnection connection) {
+                        String username = ((NetworkedBridgeConnection)connection).getUserName();
+                        ((TextView)findViewById(R.id.letext)).setText(username);
+                    }
+                });
     }
 }

@@ -2,6 +2,8 @@ package com.example.huedroid.Connection;
 
 import android.content.Context;
 
+import com.example.huedroid.OnResponse;
+
 public class NetworkedBridgeConnection implements BridgeConnection {
     private String ipAdress;
     private int port;
@@ -34,16 +36,16 @@ public class NetworkedBridgeConnection implements BridgeConnection {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    public void getEmulatorConnection(Context context) throws InstantiationException {
+    public void getEmulatorConnection(Context context, final OnResponse callback) {
         LightsAPIManager.getInstance(context).getUsername(
                 ipAdress,
                 port,
                 "user",
                 new LightsAPIManager.OnEmulatorUsername() {
                     @Override
-                    public void respond(String _username) {
-                        userName = _username;
-                        int x = 666;
+                    public void respond(String username) {
+                        setUserName(username);
+                        callback.response();
                     }
                 });
     }

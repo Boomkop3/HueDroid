@@ -50,6 +50,7 @@ public class LightsAPIManager {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    int x = 666;
                     // ToDo do something with this error
                 }
             }
