@@ -2,6 +2,7 @@ package com.example.huedroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,8 +10,7 @@ import android.widget.TextView;
 import com.example.huedroid.Connection.BridgeConnection;
 import com.example.huedroid.Connection.BridgeFactory;
 import com.example.huedroid.Connection.NetworkedBridgeConnection;
-
-import static com.example.huedroid.Connection.BridgeFactory.getEmulatorConnection;
+import com.example.huedroid.ui.MainScreen;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        this.startActivity(new Intent(this, MainScreen.class));
     }
 
     public void btn3_click() throws Exception{
