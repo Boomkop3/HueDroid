@@ -2,9 +2,11 @@ package com.example.huedroid.ui;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.huedroid.Lamp;
@@ -35,8 +37,13 @@ public class LightsRecyclerViewAdapter extends RecyclerView.Adapter<LightsRecycl
     public void onBindViewHolder(final LampViewHolder holder, int position) {
         holder.lamp = mValues.get(position);
         holder.tbxName.setText(String.valueOf(holder.lamp.getId()));
-        holder.tbxState.setText(holder.lamp.isStateOn()?"On":"Off");
-
+        holder.tbxState.setText(holder.lamp.isStateOn()?"\uD83D\uDCA1":"☉");
+        if (holder.lamp.isStateOn()){
+            holder.colorView.setBackgroundColor(holder.lamp.getColor());
+        }
+        else {
+            holder.colorView.setBackgroundColor(Color.BLACK);
+        }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +63,7 @@ public class LightsRecyclerViewAdapter extends RecyclerView.Adapter<LightsRecycl
         public final View view;
         public final TextView tbxName;
         public final TextView tbxState;
+        public final ImageView colorView;
         public Lamp lamp;
 
         public LampViewHolder(View view) {
@@ -63,6 +71,7 @@ public class LightsRecyclerViewAdapter extends RecyclerView.Adapter<LightsRecycl
             this.view = view;
             tbxName = view.findViewById(R.id.tbxLightName);
             tbxState = view.findViewById(R.id.tbxLightState);
+            colorView = view.findViewById(R.id.colorView);
         }
     }
 }

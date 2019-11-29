@@ -23,14 +23,14 @@ public class ConnectionManager extends AppCompatActivity {
 
         final TextView tbxIp = findViewById(R.id.tbxIP);
         final TextView tbxPort = findViewById(R.id.tbxPort);
-        final Switch toggleEmulated = findViewById(R.id.toggleEmulator);
+        //final Switch toggleEmulated = findViewById(R.id.toggleEmulator);
         final Button btnSave = findViewById(R.id.btnSaveConnection);
         final TextView tbxStatusText = findViewById(R.id.tbxStatusText);
         try {
             SQLiteStorage.dbConnectionResponse connectionResponse = StorageManager.getDetaultStorage(getApplicationContext()).getCurrentConnection();
             tbxIp.setText(connectionResponse.ip);
             tbxPort.setText(connectionResponse.port + "");
-            toggleEmulated.setChecked(connectionResponse.emulated);
+            //toggleEmulated.setChecked(connectionResponse.emulated);
             tbxStatusText.setText("Connection loaded from storage");
         } catch (Exception ex) { /* whatever */ }
 
@@ -39,12 +39,12 @@ public class ConnectionManager extends AppCompatActivity {
             public void onClick(View v) {
                 final String ip = tbxIp.getText().toString().trim();
                 final int port = Integer.valueOf(tbxPort.getText().toString().trim());
-                final boolean emulated = toggleEmulated.isChecked();
+                //final boolean emulated = toggleEmulated.isChecked();
 
                 LightsAPIManager.getInstance(getApplicationContext()).getUsername(ip, port, "smartphone", new LightsAPIManager.OnEmulatorUsername() {
                     @Override
                     public void respond(String username) {
-                        StorageManager.getDetaultStorage(getApplicationContext()).setCurrentConnection(ip, port, emulated, username);
+                        StorageManager.getDetaultStorage(getApplicationContext()).setCurrentConnection(ip, port, false, username);
                         tbxStatusText.setText("Connection established");
                     }
                 });
