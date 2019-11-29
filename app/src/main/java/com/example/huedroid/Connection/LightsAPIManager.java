@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.huedroid.Lamp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,5 +142,13 @@ public class LightsAPIManager {
     }
     public interface idCallback {
         public void respond(ArrayList<Integer> id);
+    }
+    public interface APIListener {
+        void onLightAvailable(Lamp lamp);
+        void onLightError(Error error);
+    }
+
+    public void getLamps(String ip, int port) {
+
     }
 }

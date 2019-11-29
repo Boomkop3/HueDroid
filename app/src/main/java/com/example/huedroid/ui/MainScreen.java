@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.huedroid.Connection.LightsAPIManager;
 import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
 import com.example.huedroid.ui.controls.LightControl;
@@ -16,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.huedroid.ui.ui.main.SectionsPagerAdapter;
 
-public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener {
+import java.util.ArrayList;
 
+public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener, LightsAPIManager.APIListener {
+    private ArrayList<Lamp> lampen = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,5 +44,23 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     public void onListFragmentInteraction(Lamp item) {
         Intent controlIntent = new Intent(this, ColorControl.class);
         startActivity(controlIntent);
+    }
+
+    @Override
+    public void onLightAvailable(Lamp lamp) {
+        this.lampen.add(lamp);
+    }
+
+    @Override
+    public void onLightError(Error error) {
+        error.printStackTrace();
+    }
+
+    private void testlampen() {
+        this.lampen.add(new Lamp(1, true, 10, 10, 10));
+        this.lampen.add(new Lamp(2, true, 10, 10, 10));
+        this.lampen.add(new Lamp(3, true, 10, 10, 10));
+        this.lampen.add(new Lamp(4, true, 10, 10, 10));
+        this.lampen.add(new Lamp(5, true, 10, 10, 10));
     }
 }
