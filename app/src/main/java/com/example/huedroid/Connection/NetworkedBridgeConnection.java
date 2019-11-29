@@ -49,4 +49,51 @@ public class NetworkedBridgeConnection implements BridgeConnection {
                     }
                 });
     }
+
+    @Override
+    public void setOn(Context context, boolean on, int id) {
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "on", on);
+    }
+
+    @Override
+    public void setHue(Context context, int hue, int id) {
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "hue", hue);
+    }
+
+    @Override
+    public void setBri(Context context, int bri, int id) {
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "bri", bri);
+    }
+
+    @Override
+    public void setSat(Context context, int sat, int id) {
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "sat", sat);
+    }
+
+    @Override
+    public boolean getOn(Context context, int id) {
+        return false;
+    }
+
+    @Override
+    public int getHue(Context context, int id) {
+        return 0;
+    }
+
+    @Override
+    public int getBri(Context context, int id) {
+        return 0;
+    }
+
+    @Override
+    public int getSat(Context context, int id) {
+        return 0;
+    }
+
+    @Override
+    public int getId(Context context, int id) {
+        return 0;
+    }
+
+
 }

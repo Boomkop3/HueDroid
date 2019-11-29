@@ -67,4 +67,23 @@ public class LightsAPIManager {
     public interface OnEmulatorUsername {
         public void respond(String username);
     }
+    public void sendToState(String ip, int port, String username, int id, String bodyName, Object bodyContents) {
+        String URL = "http://" + ip + ":" + port + "/api/" + username + "/" + id + "/state";
+        HashMap map = new HashMap();
+        map.put(bodyName, bodyContents);
+        JSONObject object = new JSONObject(map);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, URL, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        this.queue.add(request);
+        this.queue.start();
+    }
 }
