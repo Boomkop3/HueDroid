@@ -8,6 +8,8 @@ import android.widget.Button;
 import com.example.huedroid.Connection.LightsAPIManager;
 import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
+import com.example.huedroid.storage.SQLiteStorage;
+import com.example.huedroid.storage.StorageManager;
 import com.example.huedroid.ui.controls.LightControl;
 import com.example.huedroid.ui.ui.main.LightsFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.huedroid.ui.ui.main.SectionsPagerAdapter;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener, LightsAPIManager.APIListener {
@@ -35,6 +38,7 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        this.onLightRefresh();
 
         findViewById(R.id.btnManageConnections).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +49,12 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
         });
 
         testlampen();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.onLightRefresh();
     }
 
     @Override
@@ -61,6 +71,13 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     @Override
     public void onLightError(Error error) {
         error.printStackTrace();
+    }
+
+    @Override
+    public void onLightRefresh() {
+        this.lampen.clear();
+        SQLiteStorage.dbConnectionResponse connection = StorageManager.getDetaultStorage(this).getCurrentConnection();
+        LightsAPIManager.getInstance(this).getLamps(connection.ip, connection.port, connection.session, this);
     }
 
     private void testlampen() {
