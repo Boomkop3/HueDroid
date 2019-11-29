@@ -76,8 +76,13 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     @Override
     public void onLightRefresh() {
         this.lampen.clear();
-        SQLiteStorage.dbConnectionResponse connection = StorageManager.getDetaultStorage(this).getCurrentConnection();
-        LightsAPIManager.getInstance(this).getLamps(connection.ip, connection.port, connection.session, this);
+        try {
+
+            SQLiteStorage.dbConnectionResponse connection = StorageManager.getDetaultStorage(this).getCurrentConnection();
+            LightsAPIManager.getInstance(this).getLamps(connection.ip, connection.port, connection.session, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void testlampen() {

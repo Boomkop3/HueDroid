@@ -175,6 +175,7 @@ public class LightsAPIManager {
                 error.printStackTrace();
             }
         });
-
+        this.queue.add(request);
+        this.queue.start();
     }
 }
