@@ -23,7 +23,7 @@ public class BridgeFactory{
         connection.setUserName("OZeIGVpidMtd1cwAmcr0vTQCfpGzqjjXiEYU8-hg");
         callback.Response(connection);
     }
-    public static BridgeConnection getLocalAvansConnectionB(OnBridgeConnection callback){
+    public static void getLocalAvansConnectionB(OnBridgeConnection callback){
         NetworkedBridgeConnection connection = new NetworkedBridgeConnection("145.48.205.33", 80);
         connection.setUserName("iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB");
         callback.Response(connection);
