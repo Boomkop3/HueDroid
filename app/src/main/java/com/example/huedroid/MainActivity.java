@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-//        this.startActivity(new Intent(this, MainScreen.class));
+        this.startActivity(new Intent(this, MainScreen.class));
     }
 
     public void btn3_click() throws Exception{
@@ -45,17 +45,5 @@ public class MainActivity extends AppCompatActivity {
                 connection.setHue(context, 5, 4);
             }
         });
-
-//        BridgeFactory.getEmulatorConnection(
-//                "10.0.2.2",
-//                80,
-//                this,
-//                new BridgeFactory.OnBridgeConnection() {
-//                    @Override
-//                    public void Response(BridgeConnection connection) {
-//                        String username = ((NetworkedBridgeConnection)connection).getUserName();
-//                        ((NetworkedBridgeConnection)connection).setOn(context, true, 1);
-//                    }
-//                });
     }
 }
