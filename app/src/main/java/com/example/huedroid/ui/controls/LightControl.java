@@ -1,5 +1,7 @@
 package com.example.huedroid.ui.controls;
 
+import com.example.huedroid.Lamp;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,29 +18,18 @@ public class LightControl {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<LightItem> ITEMS = new ArrayList<LightItem>();
+    public static final List<Lamp> ITEMS = new ArrayList<Lamp>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, LightItem> ITEM_MAP = new HashMap<String, LightItem>();
+    public static final Map<Integer, Lamp> ITEM_MAP = new HashMap<Integer, Lamp>();
 
     private static final int COUNT = 25;
 
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
-    }
-
-    private static void addItem(LightItem item) {
+    private static void addItem(Lamp item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
-    }
-
-    private static LightItem createDummyItem(int position) {
-        return new LightItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        ITEM_MAP.put(item.getId(), item);
     }
 
     private static String makeDetails(int position) {
@@ -48,22 +39,5 @@ public class LightControl {
             builder.append("\nMore details information here.");
         }
         return builder.toString();
-    }
-
-    public static class LightItem {
-        public final String id;
-        public final String content;
-        public final String details;
-
-        public LightItem(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
-        }
-
-        @Override
-        public String toString() {
-            return content;
-        }
     }
 }

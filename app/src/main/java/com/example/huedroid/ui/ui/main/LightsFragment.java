@@ -11,11 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
 import com.example.huedroid.ui.MyItemRecyclerViewAdapter;
 import com.example.huedroid.ui.controls.LightControl;
-import com.example.huedroid.ui.controls.LightControl.LightItem;
-
 public class LightsFragment extends Fragment {
     private OnLightsFragmentInteractionListener mListener;
 
@@ -64,6 +63,6 @@ public class LightsFragment extends Fragment {
     }
 
     public interface OnLightsFragmentInteractionListener {
-        void onListFragmentInteraction(LightItem item);
+        void onListFragmentInteraction(Lamp item);
     }
 }

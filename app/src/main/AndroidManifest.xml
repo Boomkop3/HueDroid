@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.ColorControl"></activity>
+        <activity android:name=".ui.ConnectionManager"></activity>
+        <activity android:name=".ui.ColorControl" />
         <activity
             android:name=".ui.MainScreen"
             android:label="@string/title_activity_main_screen"
