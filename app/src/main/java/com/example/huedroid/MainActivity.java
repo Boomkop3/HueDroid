@@ -37,28 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn3_click() throws Exception{
         final Context context = this;
-//        BridgeFactory.getLocalAvansConnectionA(new BridgeFactory.OnBridgeConnection() {
-//            @Override
-//            public void Response(BridgeConnection connection) {
-//                ((NetworkedBridgeConnection)connection).setOn(context, false, 4);
-//            }
-//        });
-        BridgeFactory.getEmulatorConnection(
-                "10.0.2.2",
-                80,
-                this,
-                new BridgeFactory.OnBridgeConnection() {
-                    @Override
-                    public void Response(BridgeConnection connection) {
-                        String username = ((NetworkedBridgeConnection)connection).getUserName();
-                        ((NetworkedBridgeConnection)connection).getOn(context, 2, new LightsAPIManager.myCallbackThingy() {
-                            @Override
-                            public void respond(String mytext) {
-                                ((TextView)findViewById(R.id.letext)).setText(mytext);
-                            }
-                        });
-                    }
-                });
+        BridgeFactory.getLocalAvansConnectionA(new BridgeFactory.OnBridgeConnection() {
+            @Override
+            public void Response(BridgeConnection connection) {
+                ((NetworkedBridgeConnection)connection).setOn(context, false, 4);
+            }
+        });
+
 //        BridgeFactory.getEmulatorConnection(
 //                "10.0.2.2",
 //                80,
