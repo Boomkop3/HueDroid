@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         BridgeFactory.getLocalAvansConnectionA(new BridgeFactory.OnBridgeConnection() {
             @Override
             public void Response(BridgeConnection connection) {
-                ((NetworkedBridgeConnection)connection).setOn(context, false, 4);
+                connection.setOn(context, true, 4);
+                connection.setSat(context, 150, 4);
+                connection.setHue(context, 5, 4);
             }
         });
 
