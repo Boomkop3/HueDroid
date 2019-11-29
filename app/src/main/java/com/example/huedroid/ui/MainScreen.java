@@ -67,6 +67,9 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     }
 
     public void onNewLightAvailable(Lamp lamp) {
+        for (Lamp existinglamp : lampen){
+            if (existinglamp.getId() == lamp.getId()) return;
+        }
         this.lampen.add(lamp);
         viewAdapter.notifyDataSetChanged();
     }
