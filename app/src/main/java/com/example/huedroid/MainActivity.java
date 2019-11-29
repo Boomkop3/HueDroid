@@ -32,11 +32,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        this.startActivity(new Intent(this, MainScreen.class));
+//        this.startActivity(new Intent(this, MainScreen.class));
     }
 
     public void btn3_click() throws Exception{
         final Context context = this;
+//        BridgeFactory.getLocalAvansConnectionA(new BridgeFactory.OnBridgeConnection() {
+//            @Override
+//            public void Response(BridgeConnection connection) {
+//                ((NetworkedBridgeConnection)connection).setOn(context, false, 4);
+//            }
+//        });
         BridgeFactory.getEmulatorConnection(
                 "10.0.2.2",
                 80,
@@ -53,5 +59,16 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 });
+//        BridgeFactory.getEmulatorConnection(
+//                "10.0.2.2",
+//                80,
+//                this,
+//                new BridgeFactory.OnBridgeConnection() {
+//                    @Override
+//                    public void Response(BridgeConnection connection) {
+//                        String username = ((NetworkedBridgeConnection)connection).getUserName();
+//                        ((NetworkedBridgeConnection)connection).setOn(context, true, 1);
+//                    }
+//                });
     }
 }
