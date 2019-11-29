@@ -2,14 +2,12 @@ package com.example.huedroid.Connection;
 
 import android.content.Context;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.huedroid.Lamp;
 
@@ -90,7 +88,7 @@ public class LightsAPIManager {
         this.queue.start();
     }
 
-    public void getFromState(String ip, int port, String username, final int id, final String bodyName, final myCallbackThingy callback) {
+    public void getFromState(String ip, int port, String username, final int id, final String bodyName, final lightTextCallback callback) {
         String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights/" + id + "/state";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
@@ -111,8 +109,8 @@ public class LightsAPIManager {
         this.queue.add(request);
         this.queue.start();
     }
-    public interface myCallbackThingy {
-        public void respond(String mytext);
+    public interface lightTextCallback {
+        public void respond(String text);
     }
 
     public void getId(String ip, int port, String username, final idCallback callback) {
@@ -149,7 +147,7 @@ public class LightsAPIManager {
         void onLightRefresh();
     }
 
-    public void getLamps(String ip, int port, String username, final APIListener listener) {
+    public void getLamps(String ip, int port, String username, final APIListener listener, final BridgeConnection caller) {
         String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
@@ -159,10 +157,11 @@ public class LightsAPIManager {
                     while (iterator.hasNext()) {
                         int lampID = Integer.valueOf(iterator.next());
                         Lamp lamp = new Lamp(lampID,
-                                (Boolean)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("on"),
-                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("bri"),
-                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("hue"),
-                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("sat"));
+                                (Boolean)response.getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("on"),
+                                (int)response.getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("bri"),
+                                (int)response.getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("hue"),
+                                (int)response.getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("sat"),
+                                caller);
                         listener.onLightAvailable(lamp);
                     }
                 } catch (Exception e) {

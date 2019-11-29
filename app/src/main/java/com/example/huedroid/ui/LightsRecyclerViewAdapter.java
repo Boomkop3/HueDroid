@@ -14,12 +14,12 @@ import com.example.huedroid.ui.ui.main.LightsFragment.OnLightsFragmentInteractio
 
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.LampViewHolder> {
+public class LightsRecyclerViewAdapter extends RecyclerView.Adapter<LightsRecyclerViewAdapter.LampViewHolder> {
 
     private final List<Lamp> mValues;
     private final LightsFragment.OnLightsFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<Lamp> items, OnLightsFragmentInteractionListener listener) {
+    public LightsRecyclerViewAdapter(List<Lamp> items, OnLightsFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

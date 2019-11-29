@@ -10,11 +10,20 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.huedroid.R;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+    ArrayList<LightsFragment> lightsFragments;
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        for (LightsFragment lightsFragment : lightsFragments){
+            lightsFragment.notifyDataSetChanged();
+        }
+    }
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
@@ -23,15 +32,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        this.lightsFragments = new ArrayList<>();
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         if (position == 0) {
-
-            return LightsFragment.newInstance();
+            LightsFragment lightsFragment = LightsFragment.newInstance();
+            lightsFragments.add(lightsFragment);
+            return lightsFragment;
         }
         else {
             return LightsFragment.newInstance();
@@ -46,7 +55,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
         return 2;
     }
 }

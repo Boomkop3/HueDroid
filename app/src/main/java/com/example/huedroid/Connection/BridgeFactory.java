@@ -1,13 +1,18 @@
 package com.example.huedroid.Connection;
 
 import android.content.Context;
-import com.android.volley.toolbox.Volley;
+
 import com.example.huedroid.OnResponse;
 
 public class BridgeFactory{
+    public static void getHueConnection(String ipAdress, int port, Context context, String username, final OnBridgeConnection callback){
+        final NetworkedBridgeConnection connection = new NetworkedBridgeConnection(ipAdress, port);
+        connection.setUserName(username);
+        callback.Response(connection);
+    }
     public static void getEmulatorConnection(String ipAdress, int port, Context context, final OnBridgeConnection callback){
         final NetworkedBridgeConnection connection = new NetworkedBridgeConnection(ipAdress, port);
-        connection.getEmulatorConnection(context, new OnResponse() {
+        connection.getConnectionUsername(context, new OnResponse() {
             @Override
             public void response() {
                 callback.Response(connection);

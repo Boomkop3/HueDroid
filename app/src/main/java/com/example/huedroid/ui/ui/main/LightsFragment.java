@@ -14,10 +14,16 @@ import android.view.ViewGroup;
 import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
 import com.example.huedroid.ui.MainScreen;
-import com.example.huedroid.ui.MyItemRecyclerViewAdapter;
-import com.example.huedroid.ui.controls.LightControl;
+import com.example.huedroid.ui.LightsRecyclerViewAdapter;
+
 public class LightsFragment extends Fragment {
     private OnLightsFragmentInteractionListener mListener;
+    private LightsRecyclerViewAdapter adapter;
+
+    public void notifyDataSetChanged(){
+        if (adapter == null) return;
+        adapter.notifyDataSetChanged();
+    }
 
     public LightsFragment() {
 
@@ -39,7 +45,8 @@ public class LightsFragment extends Fragment {
             MainScreen context = (MainScreen) view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(context.getLamps(), mListener));
+            adapter = new LightsRecyclerViewAdapter(context.getLamps(), mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

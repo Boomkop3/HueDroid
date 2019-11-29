@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.huedroid.Connection.BridgeConnection;
+import com.example.huedroid.Connection.BridgeFactory;
 import com.example.huedroid.Connection.LightsAPIManager;
 import com.example.huedroid.Lamp;
 import com.example.huedroid.R;
@@ -22,8 +24,9 @@ import com.example.huedroid.ui.ui.main.SectionsPagerAdapter;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener, LightsAPIManager.APIListener {
+public class MainScreen extends AppCompatActivity implements LightsFragment.OnLightsFragmentInteractionListener {
     private ArrayList<Lamp> lampen = new ArrayList<>();
+    private SectionsPagerAdapter viewAdapter;
 
     public ArrayList<Lamp> getLamps(){
         return lampen;
@@ -34,6 +37,7 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        viewAdapter = sectionsPagerAdapter;
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
@@ -47,8 +51,6 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
                 startActivity(connectionManagerIntent);
             }
         });
-
-        testlampen();
     }
 
     @Override
@@ -58,38 +60,45 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(Lamp item) {
+    public void onListFragmentInteraction(Lamp lamp) {
         Intent controlIntent = new Intent(this, ColorControl.class);
+        controlIntent.putExtra("lamp", lamp);
+
         startActivity(controlIntent);
     }
 
-    @Override
-    public void onLightAvailable(Lamp lamp) {
+    public void onNewLightAvailable(Lamp lamp) {
         this.lampen.add(lamp);
+        viewAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onLightError(Error error) {
-        error.printStackTrace();
-    }
-
-    @Override
     public void onLightRefresh() {
         this.lampen.clear();
         try {
-
             SQLiteStorage.dbConnectionResponse connection = StorageManager.getDetaultStorage(this).getCurrentConnection();
-            LightsAPIManager.getInstance(this).getLamps(connection.ip, connection.port, connection.session, this);
+            BridgeFactory.getHueConnection(connection.ip, connection.port, getApplicationContext(), connection.session, new BridgeFactory.OnBridgeConnection() {
+                @Override
+                public void Response(BridgeConnection connection) {
+                    connection.getLights(getApplicationContext(), new LightsAPIManager.APIListener() {
+                        @Override
+                        public void onLightAvailable(Lamp lamp) {
+                            onNewLightAvailable(lamp);
+                        }
+
+                        @Override
+                        public void onLightError(Error error) {
+                            error.printStackTrace();
+                        }
+
+                        @Override
+                        public void onLightRefresh() {
+                            // ?
+                        }
+                    });
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void testlampen() {
-        this.lampen.add(new Lamp(1, true, 10, 10, 10));
-        this.lampen.add(new Lamp(2, true, 10, 10, 10));
-        this.lampen.add(new Lamp(3, true, 10, 10, 10));
-        this.lampen.add(new Lamp(4, true, 10, 10, 10));
-        this.lampen.add(new Lamp(5, true, 10, 10, 10));
     }
 }
