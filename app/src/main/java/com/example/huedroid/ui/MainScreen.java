@@ -1,5 +1,6 @@
 package com.example.huedroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.huedroid.R;
@@ -27,6 +28,7 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(LightControl.LightItem item) {
-
+        Intent controlIntent = new Intent(this, ColorControl.class);
+        startActivity(controlIntent);
     }
 }
