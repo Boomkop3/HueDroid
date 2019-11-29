@@ -20,7 +20,7 @@ public class BridgeFactory{
     }
     public static BridgeConnection getLocalAvansConnectionA(OnBridgeConnection callback){
         NetworkedBridgeConnection connection = new NetworkedBridgeConnection("192.168.1.179", 80);
-        connection.setUserName("SR9GSJKwoECrCeqiCTRoMCToNYfphHD6Yiu2u8me");
+        connection.setUserName("OZeIGVpidMtd1cwAmcr0vTQCfpGzqjjXiEYU8-hg");
         return connection;
     }
     public static BridgeConnection getLocalAvansConnectionB(OnBridgeConnection callback){
