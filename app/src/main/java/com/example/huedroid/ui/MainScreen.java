@@ -75,7 +75,7 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
         this.lampen.clear();
         try {
             SQLiteStorage.dbConnectionResponse connection = StorageManager.getDetaultStorage(this).getCurrentConnection();
-            BridgeFactory.getHueConnection(connection.ip, connection.port, getApplicationContext(), connection.session, new BridgeFactory.OnBridgeConnection() {
+            BridgeFactory.getHueConnection(connection.ip, connection.port, connection.session, new BridgeFactory.OnBridgeConnection() {
                 @Override
                 public void Response(BridgeConnection connection) {
                     connection.getLights(getApplicationContext(), new LightsAPIManager.APIListener() {

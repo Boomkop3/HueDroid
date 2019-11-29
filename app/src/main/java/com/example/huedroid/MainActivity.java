@@ -36,14 +36,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btn3_click() throws Exception{
-        final Context context = this;
-        BridgeFactory.getLocalAvansConnectionA(new BridgeFactory.OnBridgeConnection() {
-            @Override
-            public void Response(BridgeConnection connection) {
-                connection.setOn(context, true, 4);
-                connection.setSat(context, 150, 4);
-                connection.setHue(context, 5, 4);
-            }
-        });
+
     }
 }
