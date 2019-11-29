@@ -146,9 +146,35 @@ public class LightsAPIManager {
     public interface APIListener {
         void onLightAvailable(Lamp lamp);
         void onLightError(Error error);
+        void onLightRefresh();
     }
 
-    public void getLamps(String ip, int port) {
+    public void getLamps(String ip, int port, String username, final APIListener listener) {
+        String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Iterator<String> iterator = response.keys();
+                    while (iterator.hasNext()) {
+                        int lampID = Integer.valueOf(iterator.next());
+                        Lamp lamp = new Lamp(lampID,
+                                (Boolean)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("on"),
+                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("bri"),
+                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("hue"),
+                                (int)response.getJSONObject("lights").getJSONObject(String.valueOf(lampID)).getJSONObject("state").get("sat"));
+                        listener.onLightAvailable(lamp);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
 
     }
 }
