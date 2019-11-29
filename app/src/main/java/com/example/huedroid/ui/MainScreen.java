@@ -63,7 +63,6 @@ public class MainScreen extends AppCompatActivity implements LightsFragment.OnLi
     public void onListFragmentInteraction(Lamp lamp) {
         Intent controlIntent = new Intent(this, ColorControl.class);
         controlIntent.putExtra("lamp", lamp);
-
         startActivity(controlIntent);
     }
 

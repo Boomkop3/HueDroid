@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.huedroid.Connection.BridgeConnection;
+import com.example.huedroid.Connection.NetworkedBridgeConnection;
 
 public class Lamp implements Parcelable {
 
@@ -16,20 +17,6 @@ public class Lamp implements Parcelable {
     private int color;
     private BridgeConnection bridgeConnection;
 
-    public Lamp(int id, boolean stateOn, int stateBri, int stateHue, int stateSat, BridgeConnection connection) {
-        this.id = id;
-        this.stateOn = stateOn;
-        this.stateBri = stateBri;
-        this.stateHue = stateHue;
-        this.stateSat = stateSat;
-        float[] hsv = new float[3];
-        hsv[0] = (float)this.stateHue / (65535.0f/360.0f);
-        hsv[1] = (float)this.stateSat / 254.0f;
-        hsv[2] = ((float)this.stateBri - 1.0f) / 253.0f;
-        this.color = Color.HSVToColor(hsv);
-        this.bridgeConnection = connection;
-    }
-
     protected Lamp(Parcel in) {
         id = in.readInt();
         stateOn = in.readByte() != 0;
@@ -37,6 +24,7 @@ public class Lamp implements Parcelable {
         stateHue = in.readInt();
         stateSat = in.readInt();
         color = in.readInt();
+        bridgeConnection = in.readParcelable(NetworkedBridgeConnection.class.getClassLoader());
     }
 
     @Override
@@ -47,6 +35,7 @@ public class Lamp implements Parcelable {
         dest.writeInt(stateHue);
         dest.writeInt(stateSat);
         dest.writeInt(color);
+        dest.writeParcelable((Parcelable) bridgeConnection, 0);
     }
 
     @Override
@@ -65,6 +54,24 @@ public class Lamp implements Parcelable {
             return new Lamp[size];
         }
     };
+
+    public BridgeConnection getBridgeConnection() {
+        return bridgeConnection;
+    }
+
+    public Lamp(int id, boolean stateOn, int stateBri, int stateHue, int stateSat, BridgeConnection connection) {
+        this.id = id;
+        this.stateOn = stateOn;
+        this.stateBri = stateBri;
+        this.stateHue = stateHue;
+        this.stateSat = stateSat;
+        float[] hsv = new float[3];
+        hsv[0] = (float)this.stateHue / (65535.0f/360.0f);
+        hsv[1] = (float)this.stateSat / 254.0f;
+        hsv[2] = ((float)this.stateBri - 1.0f) / 253.0f;
+        this.color = Color.HSVToColor(hsv);
+        this.bridgeConnection = connection;
+    }
 
     public int getId() {
         return id;

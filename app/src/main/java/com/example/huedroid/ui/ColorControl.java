@@ -21,13 +21,15 @@ public class ColorControl extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lamp.setStateOn(false);
+                lamp.getBridgeConnection().setOn(getBaseContext(), false, lamp.getId());
             }
         });
 
         findViewById(R.id.btnLightOn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lamp.setStateOn(false);
+                lamp.setStateOn(true);
+                lamp.getBridgeConnection().setOn(getBaseContext(), true, lamp.getId());
             }
         });
     }

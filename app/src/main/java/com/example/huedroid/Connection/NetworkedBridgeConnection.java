@@ -131,6 +131,4 @@ public class NetworkedBridgeConnection implements BridgeConnection, Parcelable {
     public void getLights(Context context, LightsAPIManager.APIListener callback) {
         LightsAPIManager.getInstance(context).getLamps(this.getIpAdress(), this.getPort(), this.getUserName(), callback, this);
     }
-
-
 }
