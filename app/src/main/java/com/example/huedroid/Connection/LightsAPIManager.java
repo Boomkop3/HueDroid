@@ -16,7 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class LightsAPIManager {
     private Context context;
@@ -68,7 +70,7 @@ public class LightsAPIManager {
         public void respond(String username);
     }
     public void sendToState(String ip, int port, String username, int id, String bodyName, Object bodyContents) {
-        String URL = "http://" + ip + ":" + port + "/api/" + username + "/" + id + "/state";
+        String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights/" + id + "/state";
         HashMap map = new HashMap();
         map.put(bodyName, bodyContents);
         JSONObject object = new JSONObject(map);
@@ -85,5 +87,59 @@ public class LightsAPIManager {
         });
         this.queue.add(request);
         this.queue.start();
+    }
+
+    public void getFromState(String ip, int port, String username, final int id, final String bodyName, final myCallbackThingy callback) {
+        String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights/" + id + "/state";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String requestString = response.getJSONObject("lights").getJSONObject(String.valueOf(id)).getJSONObject("state").get(bodyName).toString();
+                    callback.respond(requestString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        this.queue.add(request);
+        this.queue.start();
+    }
+    public interface myCallbackThingy {
+        public void respond(String mytext);
+    }
+
+    public void getId(String ip, int port, String username, final idCallback callback) {
+        String URL = "http://" + ip + ":" + port + "/api/" + username + "/lights";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    Iterator<String> iterator = response.keys();
+                    while (iterator.hasNext()) {
+                        ids.add(Integer.valueOf(iterator.next()));
+                    }
+                    callback.respond(ids);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        this.queue.add(request);
+        this.queue.start();
+    }
+    public interface idCallback {
+        public void respond(ArrayList<Integer> id);
     }
 }

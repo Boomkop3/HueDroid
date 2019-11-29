@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.huedroid.OnResponse;
 
+import java.util.ArrayList;
+
 public class NetworkedBridgeConnection implements BridgeConnection {
     private String ipAdress;
     private int port;
@@ -52,47 +54,47 @@ public class NetworkedBridgeConnection implements BridgeConnection {
 
     @Override
     public void setOn(Context context, boolean on, int id) {
-        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "on", on);
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, userName, id, "on", on);
     }
 
     @Override
     public void setHue(Context context, int hue, int id) {
-        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "hue", hue);
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, userName, id, "hue", hue);
     }
 
     @Override
     public void setBri(Context context, int bri, int id) {
-        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "bri", bri);
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, userName, id, "bri", bri);
     }
 
     @Override
     public void setSat(Context context, int sat, int id) {
-        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, "f0235573166c953eee744854fec4577", id, "sat", sat);
+        LightsAPIManager.getInstance(context).sendToState(ipAdress, port, userName, id, "sat", sat);
     }
 
     @Override
-    public boolean getOn(Context context, int id) {
-        return false;
+    public void getOn(Context context, int id, LightsAPIManager.myCallbackThingy myCallbackThingy) {
+        LightsAPIManager.getInstance(context).getFromState(ipAdress, port, userName, id, "on", myCallbackThingy);
     }
 
     @Override
-    public int getHue(Context context, int id) {
-        return 0;
+    public void getHue(Context context, int id, LightsAPIManager.myCallbackThingy myCallbackThingy) {
+        LightsAPIManager.getInstance(context).getFromState(ipAdress, port, userName, id, "hue", myCallbackThingy);
     }
 
     @Override
-    public int getBri(Context context, int id) {
-        return 0;
+    public void getBri(Context context, int id, LightsAPIManager.myCallbackThingy myCallbackThingy) {
+        LightsAPIManager.getInstance(context).getFromState(ipAdress, port, userName, id, "bri", myCallbackThingy);
     }
 
     @Override
-    public int getSat(Context context, int id) {
-        return 0;
+    public void getSat(Context context, int id, LightsAPIManager.myCallbackThingy myCallbackThingy) {
+        LightsAPIManager.getInstance(context).getFromState(ipAdress, port, userName, id, "sat", myCallbackThingy);
     }
 
     @Override
-    public int getId(Context context, int id) {
-        return 0;
+    public void getIds(Context context, LightsAPIManager.idCallback callback) {
+        LightsAPIManager.getInstance(context).getId(ipAdress, port, userName, callback);
     }
 
 
